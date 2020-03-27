@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<infrared>
+	<receive-from>
+		<ip port="69005">
+			<address prefix="0.0.0.0/0" />
+		</ip>
+		<com port="COM5" />
+	</receive-from>
+	<operations>
+		<operation>
+			<triggers>
+				<code-single value="41236670" />
+			</triggers>
+			<action command="osd.showmessage">
+				<param name="text" value="Test" />
+			</action>
+		</operation>
+	</operations>
+</infrared>
