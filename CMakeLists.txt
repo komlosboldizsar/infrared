@@ -1,4 +1,4 @@
-project(infrarRED CXX)
+project(infraRED CXX)
 enable_testing()
 
 SET(CMAKE_CXX_FLAGS "-std=c++11 -fpermissive -Wcomment -Wwrite-strings -Wunknown-pragmas -O3")
