@@ -5,7 +5,9 @@ SET(CMAKE_CXX_FLAGS "-std=c++11 -fpermissive -Wcomment -Wwrite-strings -Wunknown
 
 cmake_minimum_required(VERSION 2.6)
 
-add_executable(infrared main.cpp CommandRegister.cpp)
+add_executable(infrared main.cpp
+        CommandRegister.cpp
+        lib-tinyxml2/tinyxml2.cpp)
 
 function(add_command_library lib_directory)
     include(${CMAKE_CURRENT_SOURCE_DIR}/commands-${lib_directory}/CMakeLists.txt)

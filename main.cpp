@@ -5,8 +5,15 @@
 #include <cstdio>
 #include <iostream>
 #include "CommandRegister.h"
+#include "lib-tinyxml2/tinyxml2.h"
 
 int main(int argc, char** argv) {
+
+    tinyxml2::XMLDocument doc;
+    doc.LoadFile("config.xml");
+    std::cout << doc.FirstChildElement("infrared")->FirstChild()->GetLineNum() << std::endl;
+
     CommandRegister::getInstance().initContainers();
     return 0;
+
 }
