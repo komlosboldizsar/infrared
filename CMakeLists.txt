@@ -22,3 +22,4 @@ function(add_command_library lib_directory)
 endfunction()
 
 add_command_library(test)
+add_command_library(volume)
