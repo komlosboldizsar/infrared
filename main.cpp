@@ -4,10 +4,16 @@
 
 #include <cstdio>
 #include <iostream>
-#include "CommandRegister.h"
-#include "lib-tinyxml2/tinyxml2.h"
-#include "Operation.h"
 
+#include "lib-tinyxml2/tinyxml2.h"
+
+#include "CommandRegister.h"
+#include "Operation.h"
+#include "Receiver.h"
+#include "ComReceiver.h"
+#include "IpReceiver.h"
+
+std::vector<Receiver*> receivers;
 std::vector<Operation*> operations;
 
 int readConfig();
@@ -28,18 +34,39 @@ int readConfig() {
         return 1;
     }
 
-    tinyxml2::XMLNode* receiveFromRoot = rootElement->FirstChildElement("receive-from");
-    if (receiveFromRoot != nullptr) {
-        tinyxml2::XMLNode* receiver = receiveFromRoot->FirstChild();
+    tinyxml2::XMLNode* receiversRoot = rootElement->FirstChildElement("receivers");
+    if (receiversRoot != nullptr) {
+        tinyxml2::XMLNode* receiver = receiversRoot->FirstChild();
         while (receiver != nullptr) {
+
             const char* receiverType = receiver->Value();
+
+            tinyxml2::XMLElement* receiverElement = receiver->ToElement();
+            if (receiverElement == nullptr)
+                continue; // TODO: error message
+
             if (strcmp(receiverType, "ip") == 0) {
-                // TODO: create IP receiver
+                const tinyxml2::XMLAttribute* portAttribute = receiverElement->FindAttribute("port");
+                if (portAttribute == nullptr)
+                    continue; // TODO: error message
+                unsigned int port;
+                sscanf(portAttribute->Value(), "%u", &port);
+                Receiver* receiverObj = new IpReceiver(port);
+                // TODO: address prefixes
+                receivers.push_back(receiverObj);
             }
+
             if (strcmp(receiverType, "com") == 0) {
-                // TODO: create COM port receiver
+                const tinyxml2::XMLAttribute* portAttribute = receiverElement->FindAttribute("port");
+                if (portAttribute == nullptr)
+                    continue; // TODO: error message
+                const char* port = portAttribute->Value();
+                Receiver* receiverObj = new ComReceiver(port);
+                receivers.push_back(receiverObj);
             }
+
             receiver = receiver->NextSibling();
+
         }
     }
 

@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 2.6)
 
 add_executable(infrared main.cpp
         CommandRegister.cpp
-        lib-tinyxml2/tinyxml2.cpp Action.cpp Action.h Trigger.cpp Trigger.h SingleCodeTrigger.cpp SingleCodeTrigger.h Operation.cpp Operation.h)
+        lib-tinyxml2/tinyxml2.cpp Action.cpp Action.h Trigger.cpp Trigger.h SingleCodeTrigger.cpp SingleCodeTrigger.h Operation.cpp Operation.h Receiver.cpp Receiver.h ComReceiver.cpp ComReceiver.h IpReceiver.cpp IpReceiver.h)
 
 function(add_command_library lib_directory)
     include(${CMAKE_CURRENT_SOURCE_DIR}/commands-${lib_directory}/CMakeLists.txt)

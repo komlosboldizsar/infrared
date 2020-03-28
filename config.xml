@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <infrared>
-	<receive-from>
+	<receivers>
 		<ip port="69005">
 			<address prefix="0.0.0.0/0" />
 		</ip>
 		<com port="COM5" />
-	</receive-from>
+	</receivers>
 	<operations>
 		<operation>
 			<triggers>
-				<code-single value="41236670" />
+				<single-code value="41236670" />
 			</triggers>
 			<action command="osd.showmessage">
 				<param name="text" value="Test" />
