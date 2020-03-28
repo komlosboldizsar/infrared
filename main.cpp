@@ -21,18 +21,25 @@ int readConfig();
 int main(int argc, char** argv) {
     CommandRegister::getInstance().initContainers();
     readConfig();
+
+    std::string lastCode = "00000000";
     while (true) {
         for (auto& receiver : receivers) {
             receiver->receiveLoop();
             while (receiver->hasReceived()) {
                 std::string code = receiver->nextReceived();
                 std::cout << "Received code: " << code << std::endl;
+                bool repeat = (code == "FFFFFFFF");
                 for (auto& operation : operations)
-                    operation->receive(code);
+                    operation->receive(repeat ? lastCode : code);
+                if (!repeat)
+                    lastCode = code;
             }
         }
     }
+
     return 0;
+
 }
 
 int readConfig() {
