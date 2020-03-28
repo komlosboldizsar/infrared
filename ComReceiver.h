@@ -4,8 +4,12 @@
 #include "Receiver.h"
 
 class ComReceiver : public Receiver {
+private:
+    int portNumber;
+    bool portOpened = false;
+    std::string receiveBuffer;
 public:
-    ComReceiver(const char* port);
+    explicit ComReceiver(const char* port);
     ~ComReceiver();
     // Inherited methods
     virtual void receiveLoop();
