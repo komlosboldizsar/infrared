@@ -4,8 +4,9 @@
 
 #include <cstdio>
 #include <iostream>
+#include "CommandRegister.h"
 
 int main(int argc, char** argv) {
-    std::cout << "Hello world" << std::endl;
+    CommandRegister::getInstance().initContainers();
     return 0;
 }
