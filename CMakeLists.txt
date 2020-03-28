@@ -23,3 +23,4 @@ endfunction()
 
 add_command_library(test)
 add_command_library(volume)
+add_command_library(power)
