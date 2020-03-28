@@ -129,17 +129,17 @@ int readConfig() {
                 tinyxml2::XMLNode* param = action->FirstChildElement("param");
                 while(param != nullptr) {
 
-                    param = action->NextSiblingElement("param");
-
-                    tinyxml2::XMLElement* paramElement = action->ToElement();
+                    tinyxml2::XMLElement* paramElement = param->ToElement();
                     if (paramElement == nullptr)
                         continue; // TODO: error message
 
-                    const tinyxml2::XMLAttribute* nameAttribute = actionElement->FindAttribute("name");
-                    const tinyxml2::XMLAttribute* valueAttribute = actionElement->FindAttribute("value");
+                    const tinyxml2::XMLAttribute* nameAttribute = paramElement->FindAttribute("name");
+                    const tinyxml2::XMLAttribute* valueAttribute = paramElement->FindAttribute("value");
                     if ((nameAttribute == nullptr) || (valueAttribute == nullptr))
                         continue; // TODO: error message
                     params.emplace(nameAttribute->Value(), valueAttribute->Value());
+
+                    param = param->NextSiblingElement("param");
 
                 }
 
