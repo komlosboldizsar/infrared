@@ -21,6 +21,17 @@ int readConfig();
 int main(int argc, char** argv) {
     CommandRegister::getInstance().initContainers();
     readConfig();
+    while (true) {
+        for (auto& receiver : receivers) {
+            receiver->receiveLoop();
+            while (receiver->hasReceived()) {
+                std::string code = receiver->nextReceived();
+                std::cout << "Received code: " << code << std::endl;
+                for (auto& operation : operations)
+                    operation->receive(code);
+            }
+        }
+    }
     return 0;
 }
 
@@ -77,11 +88,12 @@ int readConfig() {
         while (operation != nullptr) {
 
             Operation* operationObj = new Operation();
+            operations.push_back(operationObj);
 
             if (strcmp(operation->Value(), "operation") != 0)
                 continue; // TODO: error message
 
-            tinyxml2::XMLNode* triggersRoot = rootElement->FirstChildElement("triggers");
+            tinyxml2::XMLNode* triggersRoot = operation->FirstChildElement("triggers");
             if (triggersRoot != nullptr) {
                 tinyxml2::XMLNode* triggerNode = triggersRoot->FirstChild();
                 while(triggerNode != nullptr) {
@@ -102,7 +114,7 @@ int readConfig() {
                 }
             }
 
-            tinyxml2::XMLNode* action = rootElement->FirstChildElement("action");
+            tinyxml2::XMLNode* action = operation->FirstChildElement("action");
             while (action != nullptr) {
 
                 tinyxml2::XMLElement* actionElement = action->ToElement();
