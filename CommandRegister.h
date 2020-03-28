@@ -29,7 +29,7 @@ public:
     void initContainers();
     void deinitContainers();
     void registerContainer(CommandContainer* container);
-    const Command* getCommandByName(const std::string& name);
+    Command* getCommandByName(const std::string& name);
 private:
     static const char* LIBRARIES_PATH;
     static const char* LIBRARIES_EXT;

@@ -92,7 +92,7 @@ void CommandRegister::registerContainer(CommandContainer* container) {
 
 }
 
-const Command* CommandRegister::getCommandByName(const std::string &name) {
+Command* CommandRegister::getCommandByName(const std::string &name) {
     if (registeredCommands.count(name))
         return registeredCommands[name];
     return nullptr;

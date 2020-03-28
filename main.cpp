@@ -6,6 +6,9 @@
 #include <iostream>
 #include "CommandRegister.h"
 #include "lib-tinyxml2/tinyxml2.h"
+#include "Operation.h"
+
+std::vector<Operation*> operations;
 
 int readConfig();
 
@@ -46,6 +49,8 @@ int readConfig() {
         tinyxml2::XMLNode* operation = operationsRoot->FirstChild();
         while (operation != nullptr) {
 
+            Operation* operationObj = new Operation();
+
             if (strcmp(operation->Value(), "operation") != 0)
                 continue; // TODO: error message
 
@@ -54,7 +59,7 @@ int readConfig() {
                 tinyxml2::XMLNode* triggerNode = triggersRoot->FirstChild();
                 while(triggerNode != nullptr) {
 
-                    if (strcmp(triggerNode->Value(), "code-single") == 0) {
+                    if (strcmp(triggerNode->Value(), "single-code") == 0) {
                         tinyxml2::XMLElement* triggerElement = triggerNode->ToElement();
                         if (triggerElement == nullptr)
                             continue; // TODO: error message
@@ -62,7 +67,7 @@ int readConfig() {
                         if (valueAttribute == nullptr)
                             continue; // TODO: error message
                         const char* code = valueAttribute->Value();
-                        // TODO: create trigger "code-single"
+                        operationObj->addSingleCodeTrigger(code);
                     }
 
                     triggerNode = triggerNode->NextSibling();
@@ -99,7 +104,7 @@ int readConfig() {
 
                 }
 
-                // TODO: create actions
+                operationObj->addAction(commandName, params);
 
                 action = action->NextSiblingElement("action");
 
